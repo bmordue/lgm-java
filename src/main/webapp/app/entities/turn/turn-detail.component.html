@@ -1,0 +1,39 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="turn">
+            <h2><span>Turn</span> {{turn.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Number</span></dt>
+                <dd>
+                    <span>{{turn.number}}</span>
+                </dd>
+                <dt><span>Landscape</span></dt>
+                <dd>
+                    <div *ngIf="turn.landscape">
+                        <a [routerLink]="['/landscape', turn.landscape?.id, 'view']">{{turn.landscape?.id}}</a>
+                    </div>
+                </dd>
+                <dt><span>Game</span></dt>
+                <dd>
+                    <div *ngIf="turn.game">
+                        <a [routerLink]="['/game', turn.game?.id, 'view']">{{turn.game?.id}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/turn', turn.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
