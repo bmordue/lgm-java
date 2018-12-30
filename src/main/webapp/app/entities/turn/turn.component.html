@@ -1,0 +1,74 @@
+<div>
+    <h2 id="page-heading">
+        <span>Turns</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-turn" [routerLink]="['/turn/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span >
+            Create new Turn
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="table-responsive" *ngIf="turns">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="number"><span>Number</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="landscape.id"><span>Landscape</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="game.id"><span>Game</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let turn of turns ;trackBy: trackId">
+                <td><a [routerLink]="['/turn', turn.id, 'view' ]">{{turn.id}}</a></td>
+                <td>{{turn.number}}</td>
+                <td>
+                    <div *ngIf="turn.landscape">
+                        <a [routerLink]="['../landscape', turn.landscape?.id, 'view' ]" >{{turn.landscape?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="turn.game">
+                        <a [routerLink]="['../game', turn.game?.id, 'view' ]" >{{turn.game?.id}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/turn', turn.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/turn', turn.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'turn/'+ turn.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="turns && turns.length">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+</div>
