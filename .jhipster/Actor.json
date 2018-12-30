@@ -33,6 +33,5 @@
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,
     "clientRootFolder": "",
-    "applications": "*",
-    "skipClient": true
+    "applications": "*"
 }

@@ -1,0 +1,75 @@
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { JhiAlertService } from 'ng-jhipster';
+
+import { IActor } from 'app/shared/model/actor.model';
+import { ActorService } from './actor.service';
+import { IPlayer } from 'app/shared/model/player.model';
+import { PlayerService } from 'app/entities/player';
+
+@Component({
+    selector: 'jhi-actor-update',
+    templateUrl: './actor-update.component.html'
+})
+export class ActorUpdateComponent implements OnInit {
+    actor: IActor;
+    isSaving: boolean;
+
+    players: IPlayer[];
+
+    constructor(
+        protected jhiAlertService: JhiAlertService,
+        protected actorService: ActorService,
+        protected playerService: PlayerService,
+        protected activatedRoute: ActivatedRoute
+    ) {}
+
+    ngOnInit() {
+        this.isSaving = false;
+        this.activatedRoute.data.subscribe(({ actor }) => {
+            this.actor = actor;
+        });
+        this.playerService.query().subscribe(
+            (res: HttpResponse<IPlayer[]>) => {
+                this.players = res.body;
+            },
+            (res: HttpErrorResponse) => this.onError(res.message)
+        );
+    }
+
+    previousState() {
+        window.history.back();
+    }
+
+    save() {
+        this.isSaving = true;
+        if (this.actor.id !== undefined) {
+            this.subscribeToSaveResponse(this.actorService.update(this.actor));
+        } else {
+            this.subscribeToSaveResponse(this.actorService.create(this.actor));
+        }
+    }
+
+    protected subscribeToSaveResponse(result: Observable<HttpResponse<IActor>>) {
+        result.subscribe((res: HttpResponse<IActor>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
+    }
+
+    protected onSaveSuccess() {
+        this.isSaving = false;
+        this.previousState();
+    }
+
+    protected onSaveError() {
+        this.isSaving = false;
+    }
+
+    protected onError(errorMessage: string) {
+        this.jhiAlertService.error(errorMessage, null, null);
+    }
+
+    trackPlayerById(index: number, item: IPlayer) {
+        return item.id;
+    }
+}

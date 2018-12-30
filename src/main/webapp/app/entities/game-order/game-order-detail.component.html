@@ -1,0 +1,39 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="gameOrder">
+            <h2><span>Game Order</span> {{gameOrder.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Direction</span></dt>
+                <dd>
+                    <span>{{gameOrder.direction}}</span>
+                </dd>
+                <dt><span>Actor</span></dt>
+                <dd>
+                    <div *ngIf="gameOrder.actor">
+                        <a [routerLink]="['/actor', gameOrder.actor?.id, 'view']">{{gameOrder.actor?.id}}</a>
+                    </div>
+                </dd>
+                <dt><span>Turn</span></dt>
+                <dd>
+                    <div *ngIf="gameOrder.turn">
+                        <a [routerLink]="['/turn', gameOrder.turn?.id, 'view']">{{gameOrder.turn?.id}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/game-order', gameOrder.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

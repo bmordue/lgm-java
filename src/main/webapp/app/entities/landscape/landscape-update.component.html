@@ -1,0 +1,65 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-landscape-heading">Create or edit a Landscape</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!landscape.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="landscape.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_width">Width</label>
+                    <input type="number" class="form-control" name="width" id="field_width"
+                        [(ngModel)]="landscape.width" required/>
+                    <div [hidden]="!(editForm.controls.width?.dirty && editForm.controls.width?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.width?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.width?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_height">Height</label>
+                    <input type="number" class="form-control" name="height" id="field_height"
+                        [(ngModel)]="landscape.height" required/>
+                    <div [hidden]="!(editForm.controls.height?.dirty && editForm.controls.height?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.height?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.height?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_cells">Cells</label>
+                    <input type="text" class="form-control" name="cells" id="field_cells"
+                        [(ngModel)]="landscape.cells" required/>
+                    <div [hidden]="!(editForm.controls.cells?.dirty && editForm.controls.cells?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.cells?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

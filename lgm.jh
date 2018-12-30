@@ -58,6 +58,3 @@ relationship OneToMany {
 
 paginate * with pagination
 
-skipClient GameOrder
-skipClient Actor
-skipClient Landscape
