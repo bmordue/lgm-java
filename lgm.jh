@@ -1,0 +1,37 @@
+
+entity Game {}
+
+entity Turn {}
+
+entity Player {}
+
+relationship OneToMany {
+	from Game to Player
+}
+
+relationship OneToMany {
+	from Game to Turn
+}
+
+entity Actor {}
+
+relationship OneToMany {
+	from Player to Actor 
+}
+
+entity Landscape {
+	width Integer
+    height Integer
+    landscapeElements String
+}
+
+entity GameOrder {
+	actor Actor
+}
+
+relationship OneToMany {
+	from Turn to GameOrder
+}
+
+paginate * with pagination
+
