@@ -1,0 +1,68 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-game-order-heading">Create or edit a Game Order</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!gameOrder.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="gameOrder.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_direction">Direction</label>
+                    <select class="form-control" name="direction" [(ngModel)]="gameOrder.direction" id="field_direction"  required>
+                        <option value="UP_LEFT">UP_LEFT</option>
+                        <option value="UP_RIGHT">UP_RIGHT</option>
+                        <option value="RIGHT">RIGHT</option>
+                        <option value="DOWN_RIGHT">DOWN_RIGHT</option>
+                        <option value="DOWN_LEFT">DOWN_LEFT</option>
+                        <option value="LEFT">LEFT</option>
+                        <option value="CENTRE">CENTRE</option>
+                    </select>
+                    <div [hidden]="!(editForm.controls.direction?.dirty && editForm.controls.direction?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.direction?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_actor">Actor</label>
+                    <select class="form-control" id="field_actor" name="actor" [(ngModel)]="gameOrder.actor"  required>
+                        <option *ngIf="!editForm.value.actor" [ngValue]="null" selected></option>
+                        <option [ngValue]="actorOption.id === gameOrder.actor?.id ? gameOrder.actor : actorOption" *ngFor="let actorOption of actors; trackBy: trackActorById">{{actorOption.id}}</option>
+                    </select>
+                </div>
+                <div [hidden]="!(editForm.controls.actor?.dirty && editForm.controls.actor?.invalid)">
+                    <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.actor?.errors?.required">
+                        This field is required.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_turn">Turn</label>
+                    <select class="form-control" id="field_turn" name="turn" [(ngModel)]="gameOrder.turn"  required>
+                        <option *ngIf="!editForm.value.turn" [ngValue]="null" selected></option>
+                        <option [ngValue]="turnOption.id === gameOrder.turn?.id ? gameOrder.turn : turnOption" *ngFor="let turnOption of turns; trackBy: trackTurnById">{{turnOption.id}}</option>
+                    </select>
+                </div>
+                <div [hidden]="!(editForm.controls.turn?.dirty && editForm.controls.turn?.invalid)">
+                    <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.turn?.errors?.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
